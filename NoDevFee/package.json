@@ -1,0 +1,12 @@
+{
+  "name": "no-dev-fee",
+  "version": "1.0.0",
+  "description": "NoDevFee",
+  "main": "app.js",
+  "author": {
+    "name": "juliotec"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0"
+  }
+}
