@@ -16,7 +16,7 @@ Change the .env file with your configuration
 
 | ENV variable | Description | Example Value |
 |--|--|--|
-| MINNER_IP | The remote IP address of the mining pool you wish to push your shares to. DON'T PUT DNS, PUT THE IP NUMBER, I ADDED A LIST BELOW | 172.65.218.238 |
+| MINNER_IP | The remote IP address of the mining pool you wish to push your shares to. DON'T PUT DNS, PUT THE IP NUMBER, I ADDED A LIST BELOW | 172.65.193.133 |
 | MINNER_PORT | The remote port of the mining pool you wish to push your shares to. | 4444 |
 | ETH_ADDRESS | Your ETH address | 0x383a03BABF570A066CF15E48FCfDF147d7DB57Cf |
 | PORTS_TO_REDIRECT | Port numbers that DevFee miner servers use and we will redirect to ours | 4444,14444,5555,9999 |
