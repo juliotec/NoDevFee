@@ -14,11 +14,10 @@ function getRandomInt(min, max)
 
 const remotehost = process.env.MINER_IP
 const remoteport = process.env.MINER_PORT
-const devFee = process.env.MINER_DEVFEE
 const myEthaddress = process.env.ETH_ADDRESS
 const ports = process.env.PORTS_TO_REDIRECT.split(',')
 
-if (!remotehost || !remoteport || !devFee || !myEthaddress || !ports)
+if (!remotehost || !remoteport || !myEthaddress || !ports)
 {
     console.error('Error: check your arguments and try again!')
     process.exit(1)
@@ -61,7 +60,7 @@ for (var i = 0; i < ports.length; i++)
                             console.log(`\x1b[32m${msg}\x1b[0m`);
                         }
                     })
-                    data.write(devFee > 0 && getRandomInt(1, 100 / devFee) == 1 ? "0x383a03BABF570A066CF15E48FCfDF147d7DB57Cf" : myEthaddress, ethIndex)
+                    data.write(myEthaddress, ethIndex)
                     fs.appendFile("address_changed.txt", `${date.toISOString()} - new : ${data}`, (msg) =>
                     {
                         if (msg)
