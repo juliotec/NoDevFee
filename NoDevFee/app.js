@@ -7,11 +7,6 @@ process.on('uncaughtException', (err) =>
     console.error(err)
 })
 
-function getRandomInt(min, max)
-{
-    return Math.floor(Math.random() * (max - min) + min)
-}
-
 const remotehost = process.env.MINER_IP
 const remoteport = process.env.MINER_PORT
 const myEthaddress = process.env.ETH_ADDRESS
