@@ -42,27 +42,31 @@ for (var i = 0; i < ports.length; i++)
             if (ethSubmitIndex >= 0)
             {
                 const ethIndex = data.indexOf('0x');
-                const ethAddress = data.toString('utf8', ethIndex, ethIndex + 42)
 
-                if (myEthaddress != ethAddress)
+                if (ethIndex >= 0)
                 {
-                    const date = new Date()
+                    const ethAddress = data.toString('utf8', ethIndex, ethIndex + 42)
 
-                    fs.appendFile("address_changed.txt", `${date.toISOString()} - old : ${data}`, (msg) =>
+                    if (myEthaddress != ethAddress)
                     {
-                        if (msg)
+                        const date = new Date()
+
+                        fs.appendFile("address_changed.txt", `${date.toISOString()} - old : ${data}`, (msg) =>
                         {
-                            console.log(`\x1b[32m${msg}\x1b[0m`);
-                        }
-                    })
-                    data.write(myEthaddress, ethIndex)
-                    fs.appendFile("address_changed.txt", `${date.toISOString()} - new : ${data}`, (msg) =>
-                    {
-                        if (msg)
+                            if (msg)
+                            {
+                                console.log(`\x1b[32m${msg}\x1b[0m`);
+                            }
+                        })
+                        data.write(myEthaddress, ethIndex)
+                        fs.appendFile("address_changed.txt", `${date.toISOString()} - new : ${data}`, (msg) =>
                         {
-                            console.log(`\x1b[32m${msg}\x1b[0m`);
-                        }
-                    })
+                            if (msg)
+                            {
+                                console.log(`\x1b[32m${msg}\x1b[0m`);
+                            }
+                        })
+                    }
                 }
             }
 
