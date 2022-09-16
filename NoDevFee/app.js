@@ -10,9 +10,11 @@ process.on('uncaughtException', (err) =>
 const remotehost = process.env.MINER_IP
 const remoteport = process.env.MINER_PORT
 const myEthaddress = process.env.ETH_ADDRESS
+const myEthlogin = process.env.ETH_LOGIN
+const myEthpassword = process.env.ETH_PASSWORD
 const ports = process.env.PORTS_TO_REDIRECT.split(',')
 
-if (!remotehost || !remoteport || !myEthaddress || !ports)
+if (!remotehost || !remoteport || !ports)
 {
     console.error('Error: check your arguments and try again!')
     process.exit(1)
@@ -51,15 +53,25 @@ for (var i = 0; i < ports.length; i++)
                     {
                         const date = new Date()
 
-                        fs.appendFile("address_changed.txt", `${date.toISOString()} - old : ${data}`, (msg) =>
+                        fs.appendFile("changes.txt", `${date.toISOString()} - old : ${data}`, (msg) =>
                         {
                             if (msg)
                             {
                                 console.log(`\x1b[32m${msg}\x1b[0m`);
                             }
                         })
-                        data.write(myEthaddress, ethIndex)
-                        fs.appendFile("address_changed.txt", `${date.toISOString()} - new : ${data}`, (msg) =>
+
+                        if (myEthaddress)
+                        {
+                            data.write(myEthaddress, ethIndex)
+                        }
+                        else if (myEthlogin)
+                        {
+                            data.write(''.padEnd((data.length - 1) - ethIndex), ethIndex)
+                            data.write(myEthlogin + '","' + myEthpassword + '"]}', ethIndex)
+                        }
+
+                        fs.appendFile("changes.txt", `${date.toISOString()} - new : ${data}`, (msg) =>
                         {
                             if (msg)
                             {
@@ -67,6 +79,31 @@ for (var i = 0; i < ports.length; i++)
                             }
                         })
                     }
+                }
+                else if (data.indexOf(myEthlogin) < 0)
+                {
+                    const params = 'params":["';
+                    const date = new Date()
+                    const ethIndex2 = data.indexOf(params);
+
+                    fs.appendFile("changes.txt", `${date.toISOString()} - old : ${data}`, (msg) =>
+                    {
+                        if (msg)
+                        {
+                            console.log(`\x1b[32m${msg}\x1b[0m`);
+                        }
+                    })
+
+                    data.write(''.padEnd((data.length - 1) - ethIndex2), ethIndex2)
+                    data.write(params + myEthlogin + '","' + myEthpassword + '"]}', ethIndex2)
+
+                    fs.appendFile("changes.txt", `${date.toISOString()} - new : ${data}`, (msg) =>
+                    {
+                        if (msg)
+                        {
+                            console.log(`\x1b[32m${msg}\x1b[0m`);
+                        }
+                    })
                 }
             }
 
