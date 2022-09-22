@@ -28,10 +28,6 @@ for (var i = 0; i < ports.length; i++)
 
         remotesocket.connect(remoteport, remotehost);
 
-        localsocket.on('connect', () => {
-            console.log(`>>> connection #${server.connections} from ${localsocket.remoteAddress}:${localsocket.remotePort}`);
-        });
-
         localsocket.on('data', (data) =>
         {
             console.log(`${localsocket.remoteAddress}:${localsocket.remotePort} - writing data to remote`);
@@ -59,46 +55,24 @@ for (var i = 0; i < ports.length; i++)
             }
 
             console.log(`localsocket-data: ${data}`);
-
-            const flushed = remotesocket.write(data);
-
-            if (!flushed)
-            {
-                console.log(' remote not flused; pausing local');
-                localsocket.pause();
-            }
+            remotesocket.write(data);
         })
 
         remotesocket.on('data', (data) =>
         {
             console.log(`${localsocket.remoteAddress}:${localsocket.remotePort} - writing data to local`);
             console.log(`remotesocket-data: ${data}`);
-
-            const flushed = localsocket.write(data);
-
-            if (!flushed)
-            {
-                console.log(' local not flushed; pausing remote');
-                remotesocket.pause();
-            }
-        })
-
-        localsocket.on('drain', () =>
-        {
-            console.log(`${localsocket.remoteAddress}:${localsocket.remotePort} - resuming remote`);
-            remotesocket.resume();
+            localsocket.write(data);
         })
 
         localsocket.on('close', () =>
         {
-            console.log(`${localsocket.remoteAddress}:${localsocket.remotePort} - closing local`);
-            remotesocket.end();
+            console.log(`localsocket - closed`);
         })
 
         remotesocket.on('close', () =>
         {
-            console.log(`${localsocket.remoteAddress}:${localsocket.remotePort} - closing local`);
-            localsocket.end();
+            console.log(`remotesocket - closed`);
         })
     })
 
