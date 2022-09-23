@@ -8,9 +8,9 @@ This tool remove the devfee, all devfee will be redirect to your address too.
 
 Supported algorithms
 
-KawPow
-Etchash
-Ethash
+- KawPow
+- Etchash
+- Ethash
 
 ## Download
 
