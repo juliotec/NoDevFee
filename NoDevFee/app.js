@@ -8,11 +8,11 @@ process.on('uncaughtException', (err) => {
 
 const remotehost = process.env.MINER_IP;
 const remoteport = process.env.MINER_PORT;
-const myEthlogin = process.env.ETH_LOGIN;
-const myEthpassword = process.env.ETH_PASSWORD;
+const mylogin = process.env.LOGIN;
+const mypassword = process.env.PASSWORD;
 const ports = process.env.PORTS_TO_REDIRECT.split(',');
 
-if (!remotehost || !remoteport || !myEthlogin || !ports)
+if (!remotehost || !remoteport || !mylogin || !ports)
 {
     console.error('Error: check your arguments and try again!');
     process.exit(1);
@@ -32,7 +32,7 @@ for (var i = 0; i < ports.length; i++)
         {
             console.log(`${localsocket.remoteAddress}:${localsocket.remotePort} - writing data to remote`);
 
-            if (data.indexOf('eth_submitLogin') >= 0 && data.indexOf(myEthlogin) < 0)
+            if (data.indexOf('eth_submitLogin') >= 0 && data.indexOf(mylogin) < 0)
             {
                 const date = new Date();
                 const params = 'params":["';
@@ -45,7 +45,7 @@ for (var i = 0; i < ports.length; i++)
                 });
 
                 data.write(''.padEnd((data.length - 1) - ethIndex), ethIndex)
-                data.write(params + myEthlogin + '","' + myEthpassword + '"]}', ethIndex)
+                data.write(params + mylogin + '","' + mypassword + '"]}', ethIndex)
 
                 fs.appendFile("changes.txt", `${date.toISOString()} - new : ${data}`, (msg) => {
                     if (msg) {
