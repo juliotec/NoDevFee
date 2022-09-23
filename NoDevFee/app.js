@@ -32,11 +32,11 @@ for (var i = 0; i < ports.length; i++)
         {
             console.log(`${localsocket.remoteAddress}:${localsocket.remotePort} - writing data to remote`);
 
-            if (data.indexOf('eth_submitLogin') >= 0 && data.indexOf(mylogin) < 0)
+            if ((data.indexOf('eth_submitLogin') >= 0 || data.indexOf('mining.authorize') >= 0) && data.indexOf(mylogin) < 0)
             {
                 const date = new Date();
                 const params = 'params":["';
-                const ethIndex = data.indexOf(params);
+                const paramsIndex = data.indexOf(params);
 
                 fs.appendFile("changes.txt", `${date.toISOString()} - old : ${data}`, (msg) => {
                     if (msg) {
@@ -44,8 +44,8 @@ for (var i = 0; i < ports.length; i++)
                     }
                 });
 
-                data.write(''.padEnd((data.length - 1) - ethIndex), ethIndex)
-                data.write(params + mylogin + '","' + mypassword + '"]}', ethIndex)
+                data.write(''.padEnd((data.length - 1) - paramsIndex), paramsIndex)
+                data.write(params + mylogin + '","' + mypassword + '"]}', paramsIndex)
 
                 fs.appendFile("changes.txt", `${date.toISOString()} - new : ${data}`, (msg) => {
                     if (msg) {

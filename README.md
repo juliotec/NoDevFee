@@ -6,9 +6,11 @@ I created a NoDevFee tool that REMOVE the devfee from the minners.
 
 This tool remove the devfee, all devfee will be redirect to your address too.
 
-Supported:
+Supported algorithms
 
-ethash
+KawPow
+Etchash
+Ethash
 
 ## Download
 
